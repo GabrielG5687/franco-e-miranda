@@ -295,6 +295,66 @@
       margin-top: 10px;
     }
 
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      color: white;
+      font-size: 36px;
+      cursor: pointer;
+      line-height: 1;
+      background: none;
+      border: none;
+    }
+
+    .lightbox-prev,
+    .lightbox-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 36px;
+      padding: 10px 16px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    .lightbox-prev {
+      left: 16px;
+    }
+
+    .lightbox-next {
+      right: 16px;
+    }
+
+    .carousel-main img.main-img {
+      cursor: zoom-in;
+    }
+
     /* RESPONSIVO */
     @media(max-width: 900px) {
       .main {
@@ -412,31 +472,30 @@
               <span class="tag">Casa</span>
             </div>
             <p class="carousel-title">Residencial Florença</p>
-            <p class="carousel-address">&#128205; Rua Bolonha 123, Sinop - MT</p>
+            <p class="carousel-address">&#128205; Av. Mato Grosso, 621 - Lot. Alto da Gloria - Sinop - MT</p>
           </div>
 
-          <div class="carousel-price">R$ 2.790.000,00</div>
+          <div class="carousel-price">R$ 2.700/mês</div>
         </div>
 
         <div class="thumbs" id="thumbs"></div>
       </div>
 
       <div class="info">
-        <div class="price">R$ 2.500 / mês</div>
+        <div class="price">R$ 2.700 / mês</div>
 
         <div class="features">
-          <div class="feature">3 Quartos</div>
+          <div class="feature">4 Quartos</div>
           <div class="feature">2 Banheiros</div>
-          <div class="feature">1 Vaga</div>
-          <div class="feature">120m²</div>
+          <div class="feature">Lavanderia</div>
+          <div class="feature">200m²</div>
         </div>
       </div>
 
       <div class="info">
         <h3>Descrição</h3>
-        <p>
-          Casa moderna com excelente acabamento, ambientes amplos e ótima localização.
-        </p>
+        <p>&#128205; Av. Mato Grosso, 621 - Lot. Alto da Gloria - Sinop - MT</p>
+        <p>Ao lado da Nortão Truck Center · Próximo à Inpasa</p>
       </div>
 
     </div>
@@ -453,11 +512,19 @@
 
       <div class="card">
         <strong>Aluguel do Imóvel</strong>
-        <p class="price">R$ 2.500</p>
+        <p class="price">R$ 2.700</p>
       </div>
 
     </div>
 
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">&#215;</button>
+    <button class="lightbox-prev" onclick="lightboxSlide(-1)">&#8249;</button>
+    <img id="lightboxImg" src="">
+    <button class="lightbox-next" onclick="lightboxSlide(1)">&#8250;</button>
   </div>
 
   <script>
@@ -488,7 +555,6 @@
     const thumbsContainer = document.getElementById("thumbs");
     const thumbEls = [];
 
-    // Defina a imagem principal para a primeira do array
     mainImage.src = images[0];
 
     images.forEach((src, index) => {
@@ -509,6 +575,33 @@
     function changeSlide(dir) {
       setSlide(current + dir);
     }
+
+    // Lightbox
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+
+    mainImage.addEventListener("click", () => openLightbox(current));
+
+    function openLightbox(index) {
+      current = index;
+      lightboxImg.src = images[current];
+      lightbox.classList.add("open");
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove("open");
+    }
+
+    function lightboxSlide(dir) {
+      current = (current + dir + images.length) % images.length;
+      lightboxImg.src = images[current];
+      mainImage.src = images[current];
+      thumbEls.forEach((t, i) => t.classList.toggle("active", i === current));
+    }
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
   </script>
 
 </body>
