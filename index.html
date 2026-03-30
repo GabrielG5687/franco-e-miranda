@@ -300,14 +300,78 @@
       .main {
         flex-direction: column;
         gap: 0;
-        padding: 16px 4px;
+        padding: 16px 12px;
+        margin: 16px auto;
       }
 
-      .carousel,
+      .carousel {
+        max-width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .carousel-main img.main-img {
+        height: 260px;
+      }
+
+      .thumbs {
+        gap: 6px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+      }
+
+      .thumbs img {
+        flex: 0 0 80px;
+        height: 60px;
+      }
+
       .info,
       .card {
-        margin-bottom: 20px;
-        padding: 16px 8px;
+        margin-bottom: 16px;
+        padding: 16px 14px;
+      }
+
+      .features {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .feature {
+        flex: 1 1 40%;
+      }
+
+      .carousel-title {
+        font-size: 17px;
+      }
+
+      .carousel-price {
+        font-size: 13px;
+        padding: 5px 10px;
+      }
+    }
+
+    @media(max-width: 768px) {
+      .hero-content {
+        display: none;
+      }
+
+      .header {
+        padding: 12px 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .hero {
+        height: 200px;
+      }
+
+      .carousel-main img.main-img {
+        height: 200px;
+      }
+
+      .price {
+        font-size: 18px;
       }
     }
   </style>
