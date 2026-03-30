@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Franco & Miranda</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #f5f5f5;
+    }
+
+    /* HEADER */
+    .header {
+      background: #243642;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 30px;
+      align-items: center;
+    }
+
+    .nav a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      height: 300px;
+      background: url('https://www.sonoticias.com.br/wp-content/uploads/2018/06/ycolee3tg1azucjlgmr8cfw09zlhvbi3acn4xtq1jlk4mbmn.jpg') center/cover;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-content {
+      position: absolute;
+      color: white;
+      bottom: 30px;
+      left: 30px;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    /* CONTAINER */
+
+    .main {
+      display: flex;
+      gap: 32px;
+      max-width: 1200px;
+      margin: 30px auto 30px;
+      padding: 32px 20px;
+      box-sizing: border-box;
+    }
+
+    /* LEFT */
+    .left {
+      flex: 3;
+    }
+
+    /* GALERIA */
+
+    .carousel {
+      border-radius: 12px;
+      margin-bottom: 24px;
+      overflow: hidden;
+      max-width: 700px;
+      /* Limite de largura */
+      max-height: 500px;
+      /* Limite de altura */
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .carousel-main {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .carousel-main img.main-img {
+      width: 100%;
+      height: 420px;
+      max-height: 500px;
+      /* Garante que a imagem não ultrapasse o limite */
+      object-fit: cover;
+      display: block;
+      border-radius: 12px;
+    }
+
+    /* overlay escuro no rodapé da imagem principal */
+    .carousel-main::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 45%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 100%);
+      border-radius: 0 0 12px 12px;
+      pointer-events: none;
+    }
+
+    /* setas */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.85);
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel-btn.prev {
+      left: 12px;
+    }
+
+    .carousel-btn.next {
+      right: 12px;
+    }
+
+    /* info overlay */
+    .carousel-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      z-index: 5;
+      color: white;
+    }
+
+    .carousel-tags {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .tag {
+      background: white;
+      color: #333;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .tag-icon {
+      background: white;
+      color: #333;
+      font-size: 13px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .carousel-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 0 0 4px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .carousel-address {
+      font-size: 13px;
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    .carousel-price {
+      position: absolute;
+      bottom: 16px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.55);
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      padding: 6px 14px;
+      border-radius: 6px;
+      z-index: 6;
+    }
+
+    /* miniaturas */
+    .thumbs {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .thumbs img {
+      flex: 1;
+      min-width: 0;
+      height: 80px;
+      object-fit: cover;
+      cursor: pointer;
+      border-radius: 8px;
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+
+    .thumbs img:hover {
+      opacity: 1;
+    }
+
+    .thumbs img.active {
+      opacity: 1;
+      outline: 3px solid #fff;
+      outline-offset: -3px;
+    }
+
+    /* INFO */
+
+    .info {
+      background: white;
+      margin-top: 24px;
+      padding: 24px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .price {
+      font-size: 22px;
+      color: #2c7;
+      font-weight: bold;
+    }
+
+    /* FEATURES */
+
+    .features {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      gap: 16px;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      flex: 1;
+    }
+
+
+    .card {
+      background: white;
+      padding: 24px 20px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .whatsapp {
+      background: #25D366;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      border-radius: 5px;
+      text-decoration: none;
+      display: block;
+      margin-top: 10px;
+    }
+
+    /* RESPONSIVO */
+    @media(max-width: 900px) {
+      .main {
+        flex-direction: column;
+        gap: 0;
+        padding: 16px 4px;
+      }
+
+      .carousel,
+      .info,
+      .card {
+        margin-bottom: 20px;
+        padding: 16px 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div><strong>Franco & Miranda</strong></div>
+    <!-- <div class="nav">
+    <a href="#">Home</a>
+    <a href="#">Imóveis</a>
+    <a href="#">Contato</a>
+  </div> -->
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Casa para Locação</h1>
+      <p>Sinop - MT</p>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="main">
+
+    <!-- ESQUERDA -->
+    <div class="left">
+
+      <div class="carousel">
+        <div class="carousel-main">
+          <img id="mainImage" class="main-img" src="./IMG_6010.jpg">
+
+          <button class="carousel-btn prev" onclick="changeSlide(-1)">&#8249;</button>
+          <button class="carousel-btn next" onclick="changeSlide(1)">&#8250;</button>
+
+          <div class="carousel-overlay">
+            <div class="carousel-tags">
+              <span class="tag">Aluguel</span>
+              <span class="tag">Casa</span>
+            </div>
+            <p class="carousel-title">Residencial Florença</p>
+            <p class="carousel-address">&#128205; Rua Bolonha 123, Sinop - MT</p>
+          </div>
+
+          <div class="carousel-price">R$ 2.790.000,00</div>
+        </div>
+
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+
+      <div class="info">
+        <div class="price">R$ 2.500 / mês</div>
+
+        <div class="features">
+          <div class="feature">3 Quartos</div>
+          <div class="feature">2 Banheiros</div>
+          <div class="feature">1 Vaga</div>
+          <div class="feature">120m²</div>
+        </div>
+      </div>
+
+      <div class="info">
+        <h3>Descrição</h3>
+        <p>
+          Casa moderna com excelente acabamento, ambientes amplos e ótima localização.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- DIREITA -->
+    <div class="sidebar">
+
+      <div class="card">
+        <strong>Fale conosco</strong>
+        <a class="whatsapp" href="https://wa.me/5566999975681" target="_blank">
+          WhatsApp
+        </a>
+      </div>
+
+      <div class="card">
+        <strong>Aluguel do Imóvel</strong>
+        <p class="price">R$ 2.500</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const images = [
+      "./0f114c2e-3db8-4f56-a37c-263ec26570ea.jpeg",
+      "./1dd7782d-d0e7-4a7e-916e-5e969224cc70.jpeg",
+      "./1ee6c99e-e48b-4e0d-9f56-f285597ff049.jpeg",
+      "./2ab3c832-7c4e-442d-a5e8-6ebdb6199d59.jpeg",
+      "./2bf28c61-5842-40ba-ba5f-6879a879cd13.jpeg",
+      "./6f54e597-d9e7-4e84-aed2-6ae35c954ed2.jpeg",
+      "./7b2721f7-6adc-4fab-adcc-24dfe372dd36.jpeg",
+      "./9a6d12e7-5a0e-487b-afc4-3efaa72ef7c3.jpeg",
+      "./44b8a24c-482c-4037-a3f7-15ee0537c9e9.jpeg",
+      "./85cda184-f30a-46e3-9bf6-8a22c6b0c457.jpeg",
+      "./86e2ac3b-ab5e-4eff-9770-6a5c745adec9.jpeg",
+      "./257d32fa-4684-4393-b8fe-eba426f7cb42.jpeg",
+      "./75137fd8-8441-4b29-855c-f8211ea2b509.jpeg",
+      "./8525026f-aedc-466c-8922-128b2670a601.jpeg",
+      "./43331889-b03c-4b78-a79b-621c1990a0ab.jpeg",
+      "./a7221f41-1644-443e-8610-b73bcb23254f.jpeg",
+      "./b2a77e7c-9081-48f4-b893-7eb3c332080f.jpeg",
+      "./c7590156-5314-4833-a632-22d815249371.jpeg",
+      "./f7eb89ab-0043-4c0a-a70e-ab30b7189129.jpeg",
+    ];
+
+    let current = 0;
+    const mainImage = document.getElementById("mainImage");
+    const thumbsContainer = document.getElementById("thumbs");
+    const thumbEls = [];
+
+    // Defina a imagem principal para a primeira do array
+    mainImage.src = images[0];
+
+    images.forEach((src, index) => {
+      const img = document.createElement("img");
+      img.src = src;
+      if (index === 0) img.classList.add("active");
+      img.onclick = () => setSlide(index);
+      thumbsContainer.appendChild(img);
+      thumbEls.push(img);
+    });
+
+    function setSlide(index) {
+      current = (index + images.length) % images.length;
+      mainImage.src = images[current];
+      thumbEls.forEach((t, i) => t.classList.toggle("active", i === current));
+    }
+
+    function changeSlide(dir) {
+      setSlide(current + dir);
+    }
+  </script>
+
+</body>
+
+</html>
